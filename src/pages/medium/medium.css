@@ -1,0 +1,111 @@
+html,
+body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    margin-bottom: 30%;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    height: 100px;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    
+}
+#header-scroll{
+    display: flex;
+flex-wrap: nowrap;
+align-items: center;
+box-shadow: 0px 4px 20px rgb(153 153 153 / 20%);
+}
+
+header.clone {
+    position: fixed;
+    display: none;
+    top: -65px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    transition: 0.2s top cubic-bezier(0.3, 0.73, 0.3, 0.74);
+}
+
+body.down header.clone {
+    top: 0;
+}
+
+.testDiv {
+    height: 295px;
+    width: 300px;
+    background-color: #fff7e4;
+    gap: 10px;
+    margin-right: 5%;
+    flex: 0 0 auto;
+    border-radius: 10px;
+}
+
+.testimonal-content {
+    font-size: 0.8rem;
+    line-height: 20px;
+    margin: 5%;
+    margin-top: 0px;
+}
+
+.testimonal-content-user {
+    display: flex;
+    align-self: flex-end;
+}
+
+.offer_class {
+    background-color: #000000;
+    min-height: 10px;
+    overflow: hidden;
+    margin: 8% 3% 0%;
+    color: white;
+    padding: 3%;
+    border-radius: 8px;
+    line-height: 25px;
+    font-size: 14px;
+}
+
+.acheivement_class {
+    background-color: #f7f7f7;
+    min-height: 10px;
+    overflow: hidden;
+    margin: 8% 3% 0%;
+    padding: 3%;
+    border-radius: 8px;
+    line-height: 25px;
+    font-size: 14px;
+}
+
+.loginButton {
+    background-color: #000000;
+    width: 93%;
+    margin: auto;
+    color: white;
+    font-size: large;
+    height: 50px;
+    display: block;
+    border-radius: 5px;
+    border: none;
+}
+
+#header-scroll {
+    /* position: fixed; */
+    width: 100%;
+    background-color: white;
+    display: flex;
+    padding: 5%;
+    padding-top: 5%;
+    top: 0;
+}
+
+p {
+    font-size: 12px;
+}

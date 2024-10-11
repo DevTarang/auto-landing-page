@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./basic.css"; // Ensure this file includes your global CSS
+import "./basic.css";
 import Pic from "./../../assets/pic.avif";
 
 function Basic() {
@@ -47,12 +47,10 @@ function Basic() {
   };
 
   const handleInputChange = (section, index, field, value) => {
-    // Ensure the section exists in formData
     if (!formData[section]) {
       formData[section] = Array.isArray(formData[section]) ? [] : {};
     }
   
-    // Handle nested sections and ensure they exist
     if (index !== null) {
       if (!formData[section][index]) {
         formData[section][index] = {};
@@ -62,12 +60,11 @@ function Basic() {
       formData[section][field] = value;
     }
   
-    setFormData({ ...formData }); // Update state
+    setFormData({ ...formData });
   };
   
 
   const generateCode = () => {
-    // Convert formData to HTML template
     const offeringsHTML = formData.offerings
       .map(item => `<div class="content-box">${item.offering}</div>`)
       .join("");
@@ -110,7 +107,7 @@ function Basic() {
               </div>
               <div class="main-section">
                 <div class="instructor mb-1 border-bottom">
-                  <img class="instructor-img bdr-rad-12 mb-5" src="${formData.title_section.img}" loading="lazy" alt="${formData.title_section.title}" />
+                  <img class="instructor-img bdr-rad-12 mb-5" src="${formData.title_section.img}" loading="lazy" alt="${formData.title_section.title}" /><br/>
                   <span class="font-size-lg-bold mb-5">${formData.title_section.title}</span>
                   <br/>
                   <span class="instructor-desc small-header">${formData.title_section.descp}</span>
