@@ -143,7 +143,7 @@ function Basic() {
   };
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full">
       <div className=" mt-[30px]  mx-[40px] border-2 shadow-lg shadow-gray-300 rounded-lg m-auto border-gray-200">
         <div className="main-pages overflow-scroll p-[20px]">
           {/* Header Section */}

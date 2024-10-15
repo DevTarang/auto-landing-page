@@ -7,7 +7,7 @@ function App() {
   const [selectedPage, setSelectedPage] = useState(null); 
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full ">
       <div className='w-full h-[10vh] bg-gray-100 flex justify-between items-center px-10'>
         {selectedPage ? (
           <button className='font-bold text-[30px]' onClick={()=>setSelectedPage(null)}>←</button>
