@@ -66,74 +66,215 @@ function Basic() {
 
   const generateCode = () => {
     const offeringsHTML = formData.offerings
-      .map(item => `<div class="content-box">${item.offering}</div>`)
+      .map(item => `
+            <div class="content-box">
+              ${item.offering}
+            </div>
+        `)
       .join("");
 
     const feedbackHTML = formData.feedback
       .map(item => `
-        <div class="content-box">
-          <strong class="user-name">${item.name}</strong>
-          ${item.feedback}
-        </div>
+            <div class="content-box">
+              <strong class="user-name">${item.name}</strong>
+              ${item.feedback}
+            </div>
       `)
       .join("");
 
     const aboutHTML = formData.about
-      .map(item => `<div class="small-header">${item.about}</div>`)
+      .map(item => `
+            <div class="small-header">
+            ${item.about}
+            </div>
+        `)
       .join("");
 
-    const generatedHTML = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="keywords" content="${formData.title_section.descp}">
-        <meta name="title" content="${formData.header.title}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content='${formData.title_section.descp}'>
-        <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet">
-        <link rel="stylesheet" href="https://classplusapp.com/org/divas/styles.css" />
-      </head>
-      <body>
-        <div class="w-full h-screen">
-          <div class="flex mt-[30px] h-[80vh] mx-[40px] border-2 shadow-lg shadow-gray-300 rounded-lg m-auto border-gray-200">
-            <div class="main-page">
-              <div class="header" id="header">
-                <img class="header-logo bdr-rad-8" src="${formData.title_section.img}" loading="lazy" alt="${formData.title_section.title}" />
-                <span class="font-size-lg-bold header-name">${formData.header.title}</span>
-              </div>
-              <div class="main-section">
-                <div class="instructor mb-1 border-bottom">
-                  <img class="instructor-img bdr-rad-12 mb-5" src="${formData.title_section.img}" loading="lazy" alt="${formData.title_section.title}" /><br/>
-                  <span class="font-size-lg-bold mb-5">${formData.title_section.title}</span>
-                  <br/>
-                  <span class="instructor-desc small-header">${formData.title_section.descp}</span>
-                </div>
-                <div class="offerings border-bottom">
-                  <div class="font-size-lg-bold mb-1">Our offerings</div>
-                  ${offeringsHTML}
-                </div>
-                <div class="feedback border-bottom">
-                  <p class="font-size-lg-bold mb-1">Student feedback</p>
-                  ${feedbackHTML}
-                </div>
-                <div class="summary">
-                  <p class="font-size-lg-bold mb-1">About Us</p>
-                  ${aboutHTML}
-                </div>
-              </div>
-              <div class="sticky-footer">
-                <button class="btn" style="background-color: ${formData.login_colour.color};">Login</button>
-              </div>
-            </div>
-          </div>
+const generatedHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>${formData.header.title}</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="keywords" content="${formData.title_section.descp}">
+  <meta name="title" content="${formData.header.title}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content='${formData.title_section.descp}'>
+  <link
+  href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+  rel="stylesheet">
+  <link rel="stylesheet" href="https://classplusapp.com/org/divas/styles.css"/>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    ul{
+      padding-inline-start: 24px;
+      font-size: 14px;
+    }
+    html,
+    body {
+      height: 100%;
+      line-height: 1.4;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins',"Open Sauce Sans", sans-serif;
+      overflow-x: hidden;
+    }
+    .main-page, .main-section {
+      max-width: 100%;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+    .main-page{
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .main-section {
+      padding: 1rem;
+      overflow: auto;
+    }
+    .small-header {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .font-size-lg-bold {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .header-logo {
+      position: absolute;
+      border-radius: 4px;
+      width: 44px;
+      height: 44px;
+    }
+    .header-name{
+      padding-left: 54px;
+    }
+    .instructor{
+      padding-bottom: 10px;
+    }
+    .instructor-img{
+      width: 125px;
+      height: 125px;
+      border-radius: 8px;
+      object-fit: cover;
+      object-position: center;
+    }
+    .mb-1{
+      margin-bottom: 1rem;
+    }
+    .mb-1-2{
+      margin-bottom: 0.5rem;
+    }
+    .border-bottom{
+      border-bottom: 1px dashed var(--dark-grey);
+    }
+    .content-box{
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 1rem;
+    }
+    .content-box:nth-child(3n + 2) {
+      background-color: var(--light-pink)
+      }
+    .content-box:nth-child(3n + 1) {
+      background-color: var(--sky-blue)
+    }
+    .content-box:nth-child(3n + 3) {
+      background-color: var(--light-brown)
+    }
+    .user-name{
+      display: block;
+      margin-bottom: 4px;
+    }
+    .summary{
+      padding-bottom: 8px;
+    
+    }
+    .header {
+      position: relative;
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 16px;
+      flex: 0 0 auto;
+      padding: 14px;
+      box-shadow: 0px 4px 20px rgba(153, 153, 153, 0.2);
+    }
+    .btn {
+      border-radius: 8px;
+      background-color: var(--pink);
+      outline: none;
+      border: none;
+      width: 100%;
+      padding: 14px 0;
+      font-weight: bold;
+      color: var(--white);
+      font-size: 16px;
+    }
+    
+    .sticky-footer {
+      border-top: 1px solid var(--grey);
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--white);
+    }
+  </style>
+</head>
+<body>
+  <div class="main-page">
+    <div class="header" id="header">
+      <img class="header-logo bdr-rad-8" src="${formData.title_section.img}" loading="lazy" alt="${formData.title_section.title}" />
+      <span class="font-size-lg-bold header-name">${formData.header.title}</span>
+    </div>
+    <div class="main-section">
+      <div class="instructor mb-1 border-bottom">
+        <img class="instructor-img bdr-rad-12 mb-5" src="${formData.title_section.img}" loading="lazy" alt="${formData.title_section.title}" />
+        <div class="font-size-lg-bold mb-5">${formData.title_section.title}</div>
+        <div class="instructor-desc small-header">
+          ${formData.title_section.descp}
         </div>
-      </body>
-      </html>
-    `;
+      </div>
+      <div class="offerings border-bottom">
+        <div class="font-size-lg-bold mb-1">Our offerings</div>
+        ${offeringsHTML}
+      </div>
+      <div class="feedback border-bottom">
+        <p class="font-size-lg-bold mb-1">Student feedback</p>
+        ${feedbackHTML}
+      </div>
+      <div class="summary">
+        <p class="font-size-lg-bold mb-1">About Us</p>
+        ${aboutHTML}
+      </div>
+    </div>
+    <div class="sticky-footer">
+      <button class="btn" style="background-color: ${formData.login_colour.color};">Login</button>
+    </div>
+  </div>
+</body>
+<script>
+    function handleLogin() {
+        if (
+            window &&
+            window.webkit &&
+            window.webkit.messageHandlers &&
+            window.webkit.messageHandlers.onDeeplinkExecuted
+        ) {
+            window.webkit.messageHandlers.onDeeplinkExecuted.postMessage(
+                'NAVIGATE_TO_LOGIN'
+            );
+        }
+    }
+</script>
+</html>
+`;
 
     // Display the generated code
     console.log(generatedHTML);
@@ -148,7 +289,12 @@ function Basic() {
         <div className="main-pages overflow-scroll p-[20px]">
           {/* Header Section */}
           <div className="header" id="header">
-            <img className="header-logo bdr-rad-8" src={Pic} loading="lazy" alt="LearnVell" />
+            <input 
+              type="text" 
+              className="font-size-lg-bold header-name border-2 shadow-sm p-[5px] rounded-lg shadow-gray-300" 
+              placeholder="Enter img" 
+              onChange={(e) => handleInputChange('title_section', null, 'img', e.target.value)} 
+            />
             <input 
               type="text" 
               className="font-size-lg-bold header-name border-2 shadow-sm p-[5px] rounded-lg shadow-gray-300" 
@@ -297,8 +443,8 @@ function Basic() {
                 >
                     {isCopied ? 'Copied!' : 'Copy Text'}
                 </button>
-                </div>
-                <pre>{generatedCode}</pre>
+            </div>
+            <pre>{generatedCode}</pre>
         </div>
     </div>
   );

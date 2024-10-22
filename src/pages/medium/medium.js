@@ -12,6 +12,19 @@ function Medium () {
     login_colour: { color: "#009ae0"},
   });
 
+  const [generatedCode, setGeneratedCode] = useState('');
+  const [isCopied, setIsCopied] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+
+  const handleCopy = () => {
+      navigator.clipboard.writeText(generatedCode) 
+        .then(() => {
+          setIsCopied(true); 
+          setTimeout(() => setIsCopied(false), 2000); 
+        })
+        .catch(err => console.error('Error copying text: ', err));
+    };
+
   const addOffering = () => {
     setFormData(prevData => ({
       ...prevData, 
@@ -51,12 +64,16 @@ function Medium () {
   
     const feedbackHTML = formData.feedbacks
       .map(item => `
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4.31791 8.75175C6.6532 6.07059 9.86984 4.50575 13.2634 4.39999C13.7015 4.39999 14.1217 4.58937 14.4314 4.92646C14.7413 5.26354 14.9153 5.72073 14.9153 6.19744C14.9153 6.67415 14.7413 7.13134 14.4314 7.46843C14.1217 7.80551 13.7015 7.99489 13.2634 7.99489C11.6732 8.01975 10.1172 8.50111 8.75296 9.39047C7.38867 10.2798 6.26447 11.5454 5.49413 13.0594C5.46152 13.1205 5.44619 13.1907 5.45007 13.2613C5.45395 13.3318 5.47684 13.3996 5.51591 13.456C5.55496 13.5125 5.60846 13.5552 5.66969 13.5787C5.73093 13.6023 5.79719 13.6058 5.86019 13.5886C6.34198 13.4563 6.83682 13.3887 7.3337 13.3872C8.62552 13.387 9.8884 13.8035 10.9626 14.5842C12.0368 15.365 12.8742 16.4749 13.3686 17.7734C13.8631 19.072 13.9926 20.501 13.7406 21.8797C13.4886 23.2583 12.8666 24.5246 11.9531 25.5186C11.0397 26.5125 9.87584 27.1894 8.6088 27.4635C7.34182 27.7377 6.02855 27.5968 4.83511 27.0588C3.64167 26.5207 2.62168 25.6097 1.90415 24.4408C1.18661 23.2719 0.803763 21.8978 0.804027 20.4922V18.7048C0.719064 15.0119 1.98261 11.433 4.31791 8.75175Z" fill="#F0BA1A"/>
+          <path d="M30.7161 7.46843C30.4064 7.80551 29.9862 7.99489 29.5481 7.99489C27.9579 8.01975 26.4019 8.50111 25.0376 9.39047C23.6734 10.2798 22.5492 11.5454 21.7788 13.0594C21.7466 13.1207 21.7316 13.191 21.7356 13.2614C21.7395 13.332 21.7624 13.3997 21.8013 13.4562C21.8402 13.5127 21.8936 13.5554 21.9547 13.5789C22.0158 13.6024 22.082 13.6058 22.1449 13.5886C22.6271 13.4562 23.1224 13.3886 23.6197 13.3872C24.9114 13.3872 26.1742 13.8041 27.2482 14.585C28.3223 15.3659 29.1594 16.4758 29.6537 17.7745C30.148 19.073 30.2772 20.502 30.0251 21.8806C29.773 23.259 29.1509 24.5253 28.2373 25.5191C27.3238 26.5129 26.16 27.1896 24.893 27.4636C23.6261 27.7377 22.3129 27.5967 21.1195 27.0586C19.9262 26.5206 18.9062 25.6095 18.1887 24.4406C17.4713 23.2718 17.0885 21.8978 17.0887 20.4922V18.7048C17.0041 15.0121 18.2678 11.4333 20.6029 8.75215C22.9382 6.07109 26.1547 4.50612 29.5481 4.39999C29.9862 4.39999 30.4064 4.58937 30.7161 4.92646C31.026 5.26354 31.2 5.72073 31.2 6.19744C31.2 6.67415 31.026 7.13134 30.7161 7.46843Z" fill="#F0BA1A"/>
+          <path opacity="0.15" fill-rule="evenodd" clip-rule="evenodd" d="M6.55435 6.70938C5.74622 7.29073 4.99501 7.97428 4.31791 8.75169C1.98261 11.4329 0.719064 15.0118 0.804027 18.7046V20.4921C0.803995 20.6797 0.810778 20.8667 0.824282 21.0528L5.85667 16.1098C6.66189 15.3189 7.2404 14.3866 7.59181 13.3926C7.50593 13.389 7.41988 13.3871 7.3337 13.3871C6.83682 13.3886 6.34198 13.4562 5.86019 13.5884C5.79719 13.6056 5.73093 13.6022 5.66969 13.5786C5.60846 13.555 5.55496 13.5124 5.51591 13.4559C5.47684 13.3994 5.45395 13.3317 5.45007 13.2611C5.44619 13.1906 5.46152 13.1204 5.49413 13.0593C6.10288 11.8629 6.9326 10.8216 7.92715 9.99849C7.75994 8.83121 7.30253 7.6966 6.55435 6.70938ZM24.2772 27.5638C24.4832 27.5411 24.6887 27.5077 24.893 27.4635C26.16 27.1894 27.3238 26.5127 28.2374 25.519C29.1509 24.5252 29.773 23.259 30.0251 21.8804C30.2772 20.5018 30.148 19.073 29.6537 17.7743C29.1594 16.4757 28.3223 15.3658 27.2482 14.5849C27.1228 14.4936 26.9948 14.4074 26.8644 14.3262L24.024 17.1162C21.1871 19.9026 21.1642 24.4435 23.9727 27.2586L24.2772 27.5638Z" fill="#E07309"/>
+        </svg>
         <div class="testimonal-content">
           <p style="margin-top: 0px; height:150px; font-size: 8px">${item.feedback}</p>
           <div class="testimonal-content-user" valign="bottom">
-            <img style="margin-right: 10px; width:45px;" src="${item.pic}" alt="">
-            <p>${item.name}</p>
-          </div>
+            <img style="margin-right: 10px; width:45px; "  src="${item.pic}" alt=""><p>${item.name}</p>
+          <div>
         </div>
       `)
       .join("");
@@ -66,41 +83,52 @@ function Medium () {
       .join("");
   
     const generatedHTML = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Generated Page</title>
-        <style>
-          html,
-          body {
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+            <title>Baap of Charts</title>
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+            <link
+              href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;600;800&display=swap"
+              rel="stylesheet"
+            />
+          </head>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+          <style>
+            html,
+            body {
               position: relative;
               margin: 0;
               padding: 0;
               overflow: auto;
               margin-bottom: 30%;
-          }
+            }
 
-          footer {
+            footer {
               position: relative;
               bottom: 0;
               height: 100px;
-          }
+            }
 
-          header {
+            header {
               position: relative;
               width: 100%;
               
-          }
-          #header-scroll{
+            }
+            #header-scroll{
               display: flex;
               flex-wrap: nowrap;
               align-items: center;
+              /* padding: 14px; */
               box-shadow: 0px 4px 20px rgb(153 153 153 / 20%);
-          }
+            }
 
-          header.clone {
+            header.clone {
               position: fixed;
               display: none;
               top: -65px;
@@ -108,13 +136,13 @@ function Medium () {
               right: 0;
               z-index: 999;
               transition: 0.2s top cubic-bezier(0.3, 0.73, 0.3, 0.74);
-          }
+            }
 
-          body.down header.clone {
+            body.down header.clone {
               top: 0;
-          }
+            }
 
-          .testDiv {
+            .testDiv {
               height: 295px;
               width: 300px;
               background-color: #fff7e4;
@@ -122,21 +150,21 @@ function Medium () {
               margin-right: 5%;
               flex: 0 0 auto;
               border-radius: 10px;
-          }
+            }
 
-          .testimonal-content {
+            .testimonal-content {
               font-size: 0.8rem;
               line-height: 20px;
               margin: 5%;
               margin-top: 0px;
-          }
+            }
 
-          .testimonal-content-user {
+            .testimonal-content-user {
               display: flex;
               align-self: flex-end;
-          }
+            }
 
-          .offer_class {
+            .offer_class {
               background-color: #000000;
               min-height: 10px;
               overflow: hidden;
@@ -146,9 +174,9 @@ function Medium () {
               border-radius: 8px;
               line-height: 25px;
               font-size: 14px;
-          }
+            }
 
-          .acheivement_class {
+            .acheivement_class {
               background-color: #f7f7f7;
               min-height: 10px;
               overflow: hidden;
@@ -157,9 +185,9 @@ function Medium () {
               border-radius: 8px;
               line-height: 25px;
               font-size: 14px;
-          }
+            }
 
-          .loginButton {
+            .loginButton {
               background-color: #000000;
               width: 93%;
               margin: auto;
@@ -169,49 +197,227 @@ function Medium () {
               display: block;
               border-radius: 5px;
               border: none;
-          }
+            }
 
-          #header-scroll {
-              /* position: fixed; */
+            #header-scroll {
+              position: fixed;
               width: 100%;
               background-color: white;
               display: flex;
               padding: 5%;
-              padding-top: 5%;
+              padding-top: 10%;
               top: 0;
-          }
+            }
 
-          p {
+            p {
               font-size: 12px;
-          }
-        </style>
-      </head>
-      <body>
-        <header>
-          <img src="${formData.header.logo}" alt="Logo" />
-          <h1>${formData.header.title1} <span style="color: #efb80c">${formData.header.title2}</span></h1>
-        </header>
-        <section>
-          <img src="${formData.title_section.img}" alt="Title Image" />
-          <p>${formData.title_section.descp}</p>
-        </section>
-        <section>
-          <h2>Offerings</h2>
-          ${offeringsHTML}
-        </section>
-        <section>
-          <h2>Feedbacks</h2>
-          ${feedbackHTML}
-        </section>
-        <section>
-          <h2>Achievements</h2>
-          ${achievementsHTML}
-        </section>
-      </body>
-      </html>
+            }
+          </style>
+
+          <body
+            style="
+              margin: 0px;
+              background-color: #fcfcfc;
+              height: 100%;
+              font-family: 'Poppins', sans-serif;
+            "
+          >
+              <div id="header-scroll" style="flex: 0 0 auto;">
+                <img
+                  style="top: 0; width: 35px"
+                  src="${formData.header.logo}"
+                  alt="header"
+                  srcset=""
+                />
+                <h3 style="margin: 0px; margin-left: 8px; color: #000000; top: 0">
+                  ${formData.header.title1} <span style="color: #efb80c">${formData.header.title2}</span>
+                </h3>
+              </div>
+            <div id="header-full">
+              <img
+                style="width: 100%"
+                src="https://i.ibb.co/yRzX3wR/Rectangle-70.png"
+                alt="Header"
+              />
+              <img
+                style="margin-top: -18%; width: 157px"
+                src="${formData.title_section.img}"
+              />
+            </div>
+            <div style="margin-bottom: 5%">
+              <div>
+                <h3
+                  style="
+                    margin-left: 3%;
+                    margin-top: 5%;
+                    margin-bottom: 5%;
+                    font-weight: 800;
+                  "
+                >
+                  ${formData.header.title1} <span style="color: #efb80c">${formData.header.title2}</span>
+                </h3>
+                <p
+                  style="
+                    color: #7a8b94;
+                    display: block;
+                    margin: auto;
+                    width: 93%;
+                    margin-bottom: 10%;
+                  "
+                >
+                  ${formData.title_section.descp}
+                </p>
+              </div>
+              <hr style="width: 93%; border-top: 1px dashed black" />
+              <div
+                style="
+                  display: flex;
+                  margin-left: 3%;
+                  margin-top: 5%;
+                  margin-bottom: 5%;
+                  align-items: center;
+                "
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14.5 16.5V15.5C14.5 14.9696 14.2893 14.4609 13.9142 14.0858C13.5391 13.7107 13.0304 13.5 12.5 13.5H8.5C7.96957 13.5 7.46086 13.7107 7.08579 14.0858C6.71071 14.4609 6.5 14.9696 6.5 15.5V16.5" stroke="#F0BA1A" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.5 11.5C11.6046 11.5 12.5 10.6046 12.5 9.5C12.5 8.39543 11.6046 7.5 10.5 7.5C9.39543 7.5 8.5 8.39543 8.5 9.5C8.5 10.6046 9.39543 11.5 10.5 11.5Z" stroke="#F0BA1A" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17.5 16.5V15.5C17.4997 15.0569 17.3522 14.6264 17.0807 14.2762C16.8092 13.9259 16.4291 13.6758 16 13.565" stroke="#F0BA1A" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 7.565C14.4302 7.67515 14.8115 7.92535 15.0838 8.27616C15.3561 8.62696 15.5039 9.05842 15.5039 9.5025C15.5039 9.94659 15.3561 10.378 15.0838 10.7288C14.8115 11.0797 14.4302 11.3299 14 11.44" stroke="#F0BA1A" stroke-width="1.00001" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="0.5" y="0.5" width="23" height="23" rx="11.5" stroke="black"/>
+                </svg>
+                <h3 style="margin: 0px; margin-left: 8px">What my students says</h3>
+              </div>
+              <div
+                class="carasoul"
+                style="display: flex; padding: 3%; overflow-x: auto"
+              >${feedbackHTML}</div>
+
+              <hr style="width: 93%; border-top: 1px dashed black; margin-top: 5%" />
+              <div
+                style="
+                  display: flex;
+                  margin-left: 3%;
+                  margin-top: 5%;
+                  margin-bottom: 5%;
+                "
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_11_238)">
+                  <path d="M12 15.4999L15.5 11.9999L17 13.4999L13.5 16.9999L12 15.4999Z" stroke="#F0BA1A" stroke-width="0.833344" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M15 12.4999L14.25 8.74994L7 6.99994L8.75 14.2499L12.5 14.9999L15 12.4999Z" stroke="#F0BA1A" stroke-width="0.833344" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M7 6.99994L10.793 10.7929" stroke="#F0BA1A" stroke-width="0.833344" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M11.5 12.4999C12.0523 12.4999 12.5 12.0522 12.5 11.4999C12.5 10.9477 12.0523 10.4999 11.5 10.4999C10.9477 10.4999 10.5 10.9477 10.5 11.4999C10.5 12.0522 10.9477 12.4999 11.5 12.4999Z" stroke="#F0BA1A" stroke-width="0.833344" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <rect x="0.5" y="0.5" width="23" height="23" rx="11.5" stroke="black"/>
+                  <defs>
+                  <clipPath id="clip0_11_238">
+                  <rect width="12" height="12" fill="white" transform="translate(6 5.99994)"/>
+                  </clipPath>
+                  </defs>
+                </svg>
+                <h3 style="margin: 0px; margin-left: 8px">Our offerings</h3>
+              </div>
+              <p style="margin: auto; width: 93%; display: block; color: #7a8b94">
+                ${formData.title_section.descp}
+              </p>
+              <div class="offerings"></div>
+
+              <hr style="width: 93%; border-top: 1px dashed black; margin-top: 5%" />
+              <div
+                style="
+                  display: flex;
+                  margin-left: 3%;
+                  margin-top: 5%;
+                  margin-bottom: 5%;
+                "
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 7L13.545 10.13L17 10.635L14.5 13.07L15.09 16.51L12 14.885L8.91 16.51L9.5 13.07L7 10.635L10.455 10.13L12 7Z" stroke="#F0BA1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="0.5" y="0.5" width="23" height="23" rx="11.5" stroke="black"/>
+                </svg>
+                <h3 style="margin: 0px; margin-left: 8px">Our acheivements</h3>
+              </div>
+              <div class="acheivements"></div>
+            </div>
+            <footer
+              style="
+                margin-top: auto;
+                border-top: 1px solid #e5e5e5;
+                position: fixed;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                background-color: #ffffff;
+                margin-bottom: 0px;
+              "
+            >
+              <!-- <hr style="border-top: 2px none black; margin: 5% 0 5%; "> -->
+              <div
+                style="
+                  position: absolute;
+                  top: 50%;
+                  transform: translate(0, -50%);
+                  width: 100%;
+                "
+              >
+                <button class="loginButton" onclick="handleLogin()">Login</button>
+              </div>
+            </footer>
+            <script>
+              
+
+              const offeringsDiv = document.querySelector(".offerings");
+              offerings.forEach((ele) => {
+                const offerDiv = document.createElement("div");
+                offerDiv.classList.add("offer_class");
+                offerDiv.innerHTML = "
+                    <img style="padding-bottom: 2%;" src="${formData.offerings.icon}" alt="">
+                    <p style="margin: 0px;">${formData.offerings.offering}</p>
+                    ";
+                offeringsDiv.appendChild(offerDiv);
+              });
+
+              const acheivementsDiv = document.querySelector(".acheivements");
+              acheivements.forEach((ele) => {
+                const acheivementDiv = document.createElement("div");
+                acheivementDiv.classList.add("acheivement_class");
+                acheivementDiv.innerHTML = "
+                    <p style="margin: 0px;">${formData.achievements.achievement}</p>
+                    ";
+                acheivementsDiv.appendChild(acheivementDiv);
+              });
+
+              // $("#header-scroll").hide();
+              // $(window).scroll(function () {
+              //   if ($(this).scrollTop() > 100) {
+              //     $("#header-scroll").fadeIn();
+              //   } else {
+              //     $("#header-scroll").fadeOut();
+              //   }
+              // });
+            </script>
+            <script>
+              function handleLogin(){
+              if (
+                    window &&
+                    window.webkit &&
+                    window.webkit.messageHandlers &&
+                    window.webkit.messageHandlers.onDeeplinkExecuted
+                  ) {
+                    
+                    window.webkit.messageHandlers.onDeeplinkExecuted.postMessage(
+                      "NAVIGATE_TO_LOGIN"
+                    );
+                  }
+              }
+          </script>
+          </body>
+        </html>
+
     `;
   
     console.log(generatedHTML);
+    setGeneratedCode(generatedHTML);
   };
 
   const handleLogin = () => {
@@ -377,7 +583,22 @@ function Medium () {
             <button className="loginButton" onClick={handleLogin}>Login</button>
           </div>
         </footer>
+        <button className="p-[12px] m-[20px] bg-red-500 text-white hover:bg-blue-200 border-2 shadow-md shadow-gray-300 hover:text-white rounded-lg text-[18px]" onClick={generateCode}>Generate Code</button>
       </div>
+      <div className="generated-code-container" style={{ padding: '20px', border: '1px solid #ccc', marginTop: '20px' }}>
+            <div className='flex justify-between items-center'>
+                <h3>Generated Code:</h3>
+                <button
+                    onClick={handleCopy}
+                    className={`w-40 h-12 text-white font-semibold rounded-lg transition duration-300 
+                    ${isCopied ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'}`}
+                >
+                    {isCopied ? 'Copied!' : 'Copy Text'}
+                </button>
+            </div>
+            <pre>{generatedCode}</pre>
+        </div>
+
     </div>
   );
 };
