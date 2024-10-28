@@ -69,8 +69,7 @@ function Basic() {
       .map(item => `
             <div class="content-box">
               ${item.offering}
-            </div>
-        `)
+            </div>`)
       .join("");
 
     const feedbackHTML = formData.feedback
@@ -78,16 +77,14 @@ function Basic() {
             <div class="content-box">
               <strong class="user-name">${item.name}</strong>
               ${item.feedback}
-            </div>
-      `)
+            </div>`)
       .join("");
 
     const aboutHTML = formData.about
       .map(item => `
             <div class="small-header">
             ${item.about}
-            </div>
-        `)
+            </div>`)
       .join("");
 
 const generatedHTML = `
@@ -121,7 +118,6 @@ const generatedHTML = `
       line-height: 1.4;
       margin: 0;
       padding: 0;
-      font-family: 'Poppins',"Open Sauce Sans", sans-serif;
       overflow-x: hidden;
     }
     .main-page, .main-section {
@@ -143,7 +139,7 @@ const generatedHTML = `
       margin-bottom: 8px;
     }
     .font-size-lg-bold {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
     }
     .header-logo {
@@ -285,13 +281,12 @@ const generatedHTML = `
 
   return (
     <div className="w-full">
-      <div className=" mt-[30px]  mx-[40px] border-2 shadow-lg shadow-gray-300 rounded-lg m-auto border-gray-200">
+      <div className=" my-[30px] mx-[40px] border-2 shadow-lg shadow-gray-300 rounded-lg m-auto border-gray-200">
         <div className="main-pages overflow-scroll p-[20px]">
           {/* Header Section */}
-          <div className="header" id="header">
             <input 
               type="text" 
-              className="font-size-lg-bold header-name border-2 shadow-sm p-[5px] rounded-lg shadow-gray-300" 
+              className="font-size-lg-bold mr-[20px] header-name border-2 shadow-sm p-[5px] rounded-lg shadow-gray-300" 
               placeholder="Enter img" 
               onChange={(e) => handleInputChange('title_section', null, 'img', e.target.value)} 
             />
@@ -301,7 +296,6 @@ const generatedHTML = `
               placeholder="Enter Header Title" 
               onChange={(e) => handleInputChange('header', null, 'title', e.target.value)} 
             />
-          </div>
           {/* Main Section */}
           <div className="main-section">
             <div className="instructor mb-1 border-bottom">
@@ -429,23 +423,23 @@ const generatedHTML = `
                 </div>
             )}
             <br/>
-            <button className="p-[12px] mt-[10px] bg-red-500 text-white hover:bg-blue-200 border-2 shadow-md shadow-gray-300 hover:text-white rounded-lg text-[18px]" onClick={generateCode}>Generate Code</button>
+            <button className="p-[12px] mt-[10px] bg-red-500 text-white hover:bg-blue-200 border-2 shadow-md shadow-gray-300 hover:text-white rounded-xl text-[18px]" onClick={generateCode}>Generate Code</button>
           </div>
         </div>
-      </div>
-      <div className="generated-code-container" style={{ padding: '20px', border: '1px solid #ccc', marginTop: '20px' }}>
-            <div className='flex justify-between items-center'>
-                <h3>Generated Code:</h3>
-                <button
-                    onClick={handleCopy}
-                    className={`w-40 h-12 text-white font-semibold rounded-lg transition duration-300 
-                    ${isCopied ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'}`}
-                >
-                    {isCopied ? 'Copied!' : 'Copy Text'}
-                </button>
-            </div>
-            <pre>{generatedCode}</pre>
+      <div className="generated-code-container mx-[20px] mb-[30px] border-2 border-gray-200 shadow-lg shadow-gray-300 rounded-lg" style={{ padding: '20px', marginTop: '20px' }}>
+        <div className='flex justify-between items-center mb-[20px]'>
+            <h3>Generated Code:</h3>
+            <button
+                onClick={handleCopy}
+                className={`w-40 h-12 text-white font-semibold rounded-lg transition duration-300 
+                ${isCopied ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'}`}
+            >
+                {isCopied ? 'Copied!' : 'Copy Text'}
+            </button>
         </div>
+        <pre className='p-[25px]'>{generatedCode}</pre>
+      </div>
+      </div>
     </div>
   );
 }

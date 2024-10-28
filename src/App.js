@@ -25,13 +25,13 @@ function App() {
       ) : (
         <div className='w-full h-[80vh] flex flex-wrap'>
           <button 
-            className='w-[400px] h-[400px] text-[30px] font-semibold border-2 border-gray-200 p-[10px] text-[#363062] hover:text-white hover:bg-blue-300 shadow-md shadow-gray-300 rounded-lg m-auto' 
+            className='w-[400px] h-[400px] text-[30px] font-semibold border-2 border-gray-200 p-[10px] text-[#363062] hover:text-white hover:bg-blue-300 shadow-md shadow-gray-300 rounded-3xl m-auto' 
             onClick={() => setSelectedPage('basic')}  
           >
             Basic
           </button>
           <button 
-            className='w-[400px] h-[400px] text-[30px] font-semibold border-2 border-gray-200 p-[10px] text-[#363062] hover:text-white hover:bg-blue-300 shadow-md shadow-gray-300 rounded-lg m-auto'
+            className='w-[400px] h-[400px] text-[30px] font-semibold border-2 border-gray-200 p-[10px] text-[#363062] hover:text-white hover:bg-blue-300 shadow-md shadow-gray-300 rounded-3xl m-auto'
             onClick={() => setSelectedPage('medium')} 
           >
             Medium
